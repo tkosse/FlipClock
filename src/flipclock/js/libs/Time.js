@@ -151,7 +151,58 @@
 
 			return new Date((new Date()).getTime() + this.getTimeSeconds() * 1000);
 		},
-		
+		/*
+		/**
+		 * Calculates how many "29. february"s are between two dates.
+		 *
+		 * @return  int	Returns the number of leap days between the current date and the target date.
+		 */
+		 /*
+		countLeapDays: function() {
+			var dateNow = new Date(),
+				yearNow = dateNow.getFullYear(),
+				dateTarget = getDateObject(),
+				yearTarget = dateTarget.getFullYear(),
+				beginYear = 0,
+				endYear = 0,
+				leapYearCount = 0;
+
+			var isLeapYear = function(year){
+				return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+			}
+			
+			if(yearNow < yearTarget) {
+				beginYear = yearNow;
+				if(dateNow.getMonth() > 1) {
+					beginYear++;
+				}
+				endYear = yearTarget;
+				if(dateTarget.getMonth == 0 || (dateTarget.getMonth() == 1 && dateTarget.getDate() < 29)) {
+					endYear--;
+				}
+			}else if(yearNow > yearTarget) {
+				beginYear = yearTarget;
+				if(datetarget.getMonth() > 1) {
+					beginYear++;
+				}
+				endYear = yearNow;
+				if(dateNow.getMonth() == 0 || (dateNow.getMonth() == 1 && dateNow.getDate() < 29)) {
+					endYear--;
+				}
+			}else {
+				return 0;
+			}
+			
+			for(i = beginYear; i <= endYear; i++){
+				if(isLeapYear(i)){
+					leapYearCount++;
+				}
+			}
+
+			return leapYearCount;
+		},
+		*/
+
 		/**
 		 * Gets a digitized yearly counter
 		 *
@@ -181,6 +232,12 @@
 		
 		/**
 		 * Gets number of years
+		 * Would return worng number of years if this.time is greater than ~1505 years
+		 * Thats probably for the most cases currently not a thing.
+		 * If need it you will have to change this function. 
+		 * Substract the number of leap years that are in this interval.
+		 * Use countLeapDays() for this purpose:
+		 *   "return Math.floor(((this.time / 60 / 60 / 24) - countLeapDays()) / 365);"
 		 *
 		 * @return int The number of years
 		 */     
