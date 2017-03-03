@@ -153,14 +153,57 @@
 		},
 		
 		/**
+		 * Gets a digitized yearly counter
+		 *
+		 * @return  object  Returns a digitized object
+		 */
+		
+		getYearCounter: function(includeSeconds) {
+			var days = this.getDays(true);
+			if(days < 10) {
+				days = '00' + days.toString();
+			}else if(days < 100) {
+				days = '0' + days.toString();
+			}
+			var digits = [
+				this.getYears(),
+				days,
+				this.getHours(true),
+				this.getMinutes(true)
+			];
+
+			if(includeSeconds) {
+				digits.push(this.getSeconds(true));
+			}
+
+			return this.digitize(digits);
+		},
+		
+		/**
+		 * Gets number of years
+		 *
+		 * @return int The number of years
+		 */     
+
+		getYears: function() {
+			return Math.floor(this.time / 60 / 60 / 24 / 365);
+		},
+		
+		/**
 		 * Gets a digitized daily counter
 		 *
 		 * @return  object  Returns a digitized object
 		 */
 
 		getDayCounter: function(includeSeconds) {
+			var days = this.getDays();
+			if(days < 10) {
+				days = '00' + days.toString();
+			}else if(days < 100) {
+				days = '0' + days.toString();
+			}
 			var digits = [
-				this.getDays(),
+				days,
 				this.getHours(true),
 				this.getMinutes(true)
 			];
@@ -183,7 +226,7 @@
 			var days = this.getTimeSeconds() / 60 / 60 / 24;
 			
 			if(mod) {
-				days = days % 7;
+				days = days % 365;
 			}
 			
 			return Math.floor(days);
@@ -369,23 +412,6 @@
 			
 			return Math.ceil(seconds);
 		},
-
-		/**
-		 * Gets number of weeks
-		 *
-		 * @param   bool  Should perform a modulus? If not sent, then no.
-		 * @return  int   Retuns a floored integer
-		 */
-		 
-		getWeeks: function(mod) {
-			var weeks = this.getTimeSeconds() / 60 / 60 / 24 / 7;
-			
-			if(mod) {
-				weeks = weeks % 52;
-			}
-			
-			return Math.floor(weeks);
-		},
 		
 		/**
 		 * Removes a specific number of leading zeros from the array.
@@ -465,14 +491,26 @@
 		toString: function() {
 			return this.getTimeSeconds().toString();
 		}
-		
 		/*
-		getYears: function() {
-			return Math.floor(this.time / 60 / 60 / 24 / 7 / 52);
+		/**
+		 * Gets number of weeks
+		 *
+		 * @param   bool  Should perform a modulus? If not sent, then no.
+		 * @return  int   Retuns a floored integer
+		 */
+		 /* Not compatible with year counter as it skips the week and just displays days and then years.
+		getWeeks: function(mod) {
+			var weeks = this.getTimeSeconds() / 60 / 60 / 24 / 7;
+			
+			if(mod) {
+				weeks = weeks % 52;
+			}
+			
+			return Math.floor(weeks);
 		},
 		
 		getDecades: function() {
-			return Math.floor(this.getWeeks() / 10);
+			return Math.floor(this.getYears() / 10);
 		}*/
 	});
 	
